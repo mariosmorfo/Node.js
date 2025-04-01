@@ -17,7 +17,7 @@ let productsSchema = new Schema({
   product: {type: String},
   const: {type: Number},
   quantity: {type: Number, required: true},
-  date: {type: Date, default: Date.now()}
+  date: {type: Date, default: Date.now}
 })
 
 let userSchema = new Schema({
