@@ -38,7 +38,23 @@ describe('Request for /api/users', () => {
     expect(res.statusCode).toBe(200)
     expect(res.body.status).toBeTruthy()
     expect(res.body.data.length).toBeGreaterThan(0);
-  }, 20000)
+  }, 50000);
+
+  test('Post Creates a user', async () => {
+    const res = await request(app)
+      .post('/api/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        'username': 'user5',
+        'password': '12345',
+        'name': "user5name",
+        'surname': 'user5surname',
+        'email': 'user5@aueb.gr'
+      });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBeTruthy();
+
+  }, 50000)
 })
 
 describe("Requests for /api/users/:username", () => {

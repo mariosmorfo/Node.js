@@ -23,4 +23,4 @@ async function findLastInsertedUser() {
     console.log('Problem in finding last inserted user', err)
     return false
   }
-}
+} 
