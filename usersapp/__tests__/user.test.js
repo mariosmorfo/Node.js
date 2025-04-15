@@ -51,8 +51,8 @@ describe('Request for /api/users', () => {
         'surname': 'user5surname',
         'email': 'user5@aueb.gr',
         'address': {
-          'arrea': "area1",
-          'rode': 'rode5'
+          'area': 'area1',
+          'road': 'road5'
         }
       });
     expect(res.statusCode).toBe(200);
@@ -71,8 +71,8 @@ describe('Request for /api/users', () => {
           'surname': 'surname',
           'email': 'email',
           'address': {
-            'arrea': "area",
-            'rode': 'rode'
+            'area': 'area',
+            'road': 'road'
           }
         });
       expect(res.statusCode).toBe(404);
@@ -114,8 +114,8 @@ describe('Request for /api/users', () => {
             'road': 'road6'
           }
         });
-        expect(res.statusCode).toBe(404);
-        expect(res.body.status).not.toBeTruthy();
+      expect(res.statusCode).toBe(404);
+      expect(res.body.status).not.toBeTruthy();
     }, 50000)
 })
 
@@ -134,12 +134,42 @@ describe("Requests for /api/users/:username", () => {
     // console.log('RESULT>>', result)
 
     const res = await request(app)
-      .get('/api/users/user3')
+      .get('/api/users/' + result.username)
       .set('Authorization', `Bearer ${token}`)
 
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBeTruthy();
-    expect(res.body.data.username).toBe('user3')
-    expect(res.body.data.email).toBe('user3@aueb.gr')
+    expect(res.body.data.username).toBe(result.username)
+    expect(res.body.data.email).toBe(result.email)
+  }),
+
+    test('Update a user', async () => {
+      const result = await userService.findLastInsertedUser();
+
+      const res = await request(app)
+        .patch('/api/users/' + result.username)
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          username: result.username,
+          name: "new updated name",
+          surname: 'new updated surname',
+          email: 'new@aueb.gr',
+          address: {
+            area: 'area50',
+            road: result.address.road
+          }
+        })
+      expect(res.statusCode).toBe(200);
+      expect(res.body.status).toBeTruthy();
+    })
+
+  test('Delete a user', async () => {
+    const res = await request(app)
+      .delete('/api/users/' + result.username)
+      .set('Authorization', `Bearer ${token}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body.status).toBeTruthy();
+
   })
 })

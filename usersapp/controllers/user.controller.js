@@ -83,7 +83,7 @@ exports.update = async (req, res) => {
     address: req.body.address,
     address: {
       area: req.body.address.area,
-      road: req.body.address.body
+      road: req.body.address.road
     }
   };
 
