@@ -2,6 +2,11 @@ const express = require("express");
 const app = express()
 const cors = require('cors');
 
+app.use(cors({
+  // origin: '*'
+  origin: ['http://localhost:4200']
+}))
+
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
@@ -12,10 +17,7 @@ const user = require('./routes/user.routes');
 const userProduct = require('./routes/user.products.routes')
 const auth = require('./routes/auth.routes');
 
-app.use(cors({
-  // origin: '*'
-  origin: ['http://localhost:3000']
-}))
+
 
 app.use('/api/auth', auth);
 app.use('/api/users', user);
